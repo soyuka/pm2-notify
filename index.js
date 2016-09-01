@@ -43,11 +43,11 @@ function sendMail(opts) {
     markdown: opts.text,
     attachments: opts.attachments || []
   }
-    
+
   transporter.sendMail(opts, function(err, info) {
     if(err) {
-      console.error(err) 
-    } 
+      console.error(err)
+    }
 
     console.log('Mail sent', info)
   })
@@ -62,12 +62,12 @@ function processQueue() {
   var l = queue.length
 
   if(l == 0) {
-    return; 
+    return;
   }
 
   //just one?
   if(l === 1) {
-    return sendMail(queue[0]) 
+    return sendMail(queue[0])
   }
 
   //Concat texts, get the multiple subject
@@ -78,7 +78,7 @@ function processQueue() {
 
   for(var i in queue) {
     text += queue[i].text
-    
+
     if(config.attach_logs) {
 
       //don't attach twice the same file
@@ -88,8 +88,8 @@ function processQueue() {
         for(var a in attachments) {
           if(attachments[a].path == queue[i].attachments[j].path) {
             has = true
-            break; 
-          } 
+            break;
+          }
         }
 
         if(has === false) {
@@ -102,7 +102,7 @@ function processQueue() {
       subject: subject,
       text: text,
       attachments: attachments
-    }) 
+    })
   }
 
   //reset queue
@@ -112,7 +112,7 @@ function processQueue() {
 pm2.launchBus(function(err, bus) {
 
   if(err) {
-    throw err 
+    throw err
   }
 
   bus.on('process:event', function(e) {
@@ -121,7 +121,7 @@ pm2.launchBus(function(err, bus) {
       return;
     }
 
-    //it's an event we should watch 
+    //it's an event we should watch
     if(~config.events.indexOf(e.event)) {
 
       e.date = new Date(e.at).toString()
@@ -147,14 +147,14 @@ pm2.launchBus(function(err, bus) {
       queue.push(e)
 
       if(timeout) {
-        clearTimeout(timeout) 
+        clearTimeout(timeout)
       }
 
-      setTimeout(processQueue, config.polling)
+      timeout = setTimeout(processQueue, config.polling)
     }
   })
 
   bus.on('pm2:kill', function() {
-    console.error('PM2 is beeing killed') 
+    console.error('PM2 is beeing killed')
   })
 })
