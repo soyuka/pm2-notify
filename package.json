@@ -1,6 +1,6 @@
 {
   "name": "pm2-notify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SMTP PM2 notifier",
   "main": "index.js",
   "dependencies": {
