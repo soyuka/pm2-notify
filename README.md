@@ -1,10 +1,10 @@
 ## How does it work?
 
-We're listening on pm2 bus **automatic** events (manual exits won't be mailed). When an exit event happend we're keeping the pm2 process environnement in a queue. Those elements are then emailed through SMTP by using the famous [https://github.com/nodemailer/nodemailer](nodemailer).
+We're listening on pm2 bus **automatic** events (manual exits won't be mailed). When an exit event happend we're keeping the pm2 process environnement in a queue. Those elements are then emailed through SMTP by using the famous [nodemailer](https://github.com/nodemailer/nodemailer).
 
 Templates can be customized, if you want to use another mailing protocol feel free to dig into the code! This is meant to be used out of the box with minimal configuration but it can't fit everyone needs.
 
-If you need better email interactions have a look at [keymetrics.io](Keymetrics)!
+If you need better email interactions have a look at [Keymetrics](https://keymetrics.io/)!
 
 ## Configuration
 
