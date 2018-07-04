@@ -31,8 +31,10 @@ template: './template.md'
 subject: '<%= process.name %> errored (<%= process.NODE_ENV %>)'
 # if multiple events are going to be mailed, use a global subject:
 multiple_subject: 'Error on <%= hostname %>'
-#wait for 5 seconds after each event before sending an email - avoid spam when a lot of events happened
-polling: 2500 
+#wait for 5 seconds after the last event before sending an email - avoid spam when a lot of events happened
+polling: 5000 
+#if events are sent continuously, an email will be sent after 5 minutes anyway
+max_polling_time: 300000
 #attach your process logs to the email
 attach_logs: true 
 ```

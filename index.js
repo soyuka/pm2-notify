@@ -15,6 +15,7 @@ transporter.use('compile', markdown({useEmbeddedImages: true}))
 
 var queue = []
 var timeout = null
+var lastEventTime = null
 
 /**
  * Compile template
@@ -106,6 +107,9 @@ function processQueue() {
     
   //reset queue
   queue.length = 0
+
+  // Reset send mail delay
+  lastEventTime = null
 }
 
 pm2.launchBus(function(err, bus) {
@@ -147,9 +151,16 @@ pm2.launchBus(function(err, bus) {
 
       if(timeout) {
         clearTimeout(timeout)
+
+        if (lastEventTime && Date.now() - lastEventTime >= config.max_polling_time) {
+          processQueue()
+        }
       }
 
       timeout = setTimeout(processQueue, config.polling)
+      if (!lastEventTime) {
+        lastEventTime = Date.now()
+      }
     }
   })
 
