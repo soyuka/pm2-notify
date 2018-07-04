@@ -33,6 +33,8 @@ subject: '<%= process.name %> errored (<%= process.NODE_ENV %>)'
 multiple_subject: 'Error on <%= hostname %>'
 #wait for 5 seconds after the last event before sending an email - avoid spam when a lot of events happened
 polling: 5000 
+#if events are sent continuously, an email will be sent after 5 minutes anyway
+max_polling_time: 300000
 #attach your process logs to the email
 attach_logs: true 
 ```
